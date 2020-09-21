@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.zhangwei.example.springbootdemo80.elasticsearch.common.BaseResult;
 import com.zhangwei.example.springbootdemo80.elasticsearch.common.Page;
 import com.zhangwei.example.springbootdemo80.elasticsearch.entites.BookModel;
+import com.zhangwei.example.springbootdemo80.elasticsearch.service.BankingOutLetsService;
 import com.zhangwei.example.springbootdemo80.elasticsearch.service.BookService;
 import com.zhangwei.example.springbootdemo80.elasticsearch.vo.BookRequestVO;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,9 @@ import java.util.List;
 public class BookController {
     @Autowired
     private BookService bookService;
+
+    @Autowired
+    private BankingOutLetsService bankingOutLetsService;
 
     /**
      * 列表分页查询
@@ -69,6 +73,15 @@ public class BookController {
         }
         bookService.delete(id);
         return BaseResult.success();
+    }
+
+    /**
+     * 删除索引
+     */
+    @GetMapping("/deleteIndex")
+    public BaseResult deleteIndex(String index){
+        boolean res = bankingOutLetsService.deleteIndex(index);
+        return BaseResult.success(res);
     }
 
 }

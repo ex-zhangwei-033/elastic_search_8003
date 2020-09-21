@@ -13,7 +13,6 @@ public class EsRestApi {
 
     //创建索引
 
-
     //创建文档
 
     //查询

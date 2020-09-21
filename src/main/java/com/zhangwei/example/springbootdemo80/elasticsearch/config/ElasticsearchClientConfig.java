@@ -5,6 +5,7 @@ import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 /**
  * @program: spring-boot-demo-80
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
  * @author: 张伟
  * @create: 2020-09-20 13:04
  **/
+@Component
 @Configuration
 public class ElasticsearchClientConfig {
     @Bean
