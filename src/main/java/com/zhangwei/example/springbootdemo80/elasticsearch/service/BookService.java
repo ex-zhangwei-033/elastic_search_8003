@@ -97,6 +97,13 @@ public class BookService {
                 log.error(e.getMessage(), e);
             }
         });
+
+        try {
+            client.close();
+        } catch (IOException e) {
+            log.error("关闭client失败！原因: {}", e.getMessage(), e);
+        }
+
     }
 
 
@@ -110,6 +117,12 @@ public class BookService {
             }
         } catch (IOException e) {
             log.error("查看失败！原因: {}", e.getMessage(), e);
+        }finally {
+            try {
+                client.close();
+            } catch (IOException e) {
+                log.error("关闭client失败！原因: {}", e.getMessage(), e);
+            }
         }
         return null;
     }
@@ -127,6 +140,12 @@ public class BookService {
             }
         } catch (IOException e) {
             log.error("查看失败！原因: {}", e.getMessage(), e);
+        }finally {
+            try {
+                client.close();
+            } catch (IOException e) {
+                log.error("关闭client失败！原因: {}", e.getMessage(), e);
+            }
         }
         return null;
     }
@@ -201,6 +220,12 @@ public class BookService {
             return page;
         } catch (IOException e) {
             log.error("查询失败！原因: {}", e.getMessage(), e);
+        }finally {
+            try {
+                client.close();
+            } catch (IOException e) {
+                log.error("关闭client失败！原因: {}", e.getMessage(), e);
+            }
         }
 
         return null;
