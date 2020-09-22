@@ -140,13 +140,14 @@ public class BookService {
             }
         } catch (IOException e) {
             log.error("查看失败！原因: {}", e.getMessage(), e);
-        }finally {
+        }
+        /*finally {
             try {
                 client.close();
             } catch (IOException e) {
                 log.error("关闭client失败！原因: {}", e.getMessage(), e);
             }
-        }
+        }*/
         return null;
     }
 

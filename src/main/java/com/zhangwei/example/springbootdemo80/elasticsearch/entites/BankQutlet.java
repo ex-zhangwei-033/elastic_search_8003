@@ -1,6 +1,6 @@
 package com.zhangwei.example.springbootdemo80.elasticsearch.entites;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+/*import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -12,9 +12,9 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 @Document(indexName = "cmb_outlet",type="cmb_outlet")
 @Data
 @ToString
-@NoArgsConstructor
+@NoArgsConstructor*/
 public class BankQutlet {
-    @Id
+    /*@Id
     private String id;
     //网点名
     @Field(
@@ -42,5 +42,5 @@ public class BankQutlet {
     private Address address;
     //距离
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private double distance;
+    private double distance;*/
 }

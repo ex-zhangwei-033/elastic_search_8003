@@ -13,14 +13,14 @@ import org.springframework.stereotype.Component;
  * @author: 张伟
  * @create: 2020-09-20 13:04
  **/
-@Component
-@Configuration
+//@Component
+//@Configuration
 public class ElasticsearchClientConfig {
-    @Bean
+    /*@Bean
     public RestHighLevelClient getRestHighLevelClient() {
         RestHighLevelClient client = new RestHighLevelClient(
                 RestClient.builder(
                         new HttpHost("localhost", 9200, "http")));
         return client;
-    }
+    }*/
 }

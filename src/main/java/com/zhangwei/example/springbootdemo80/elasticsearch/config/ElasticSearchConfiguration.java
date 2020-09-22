@@ -17,33 +17,33 @@ import java.util.List;
  * @Date 2020/3/18 9:12
  * @Version 1.0
  **/
-@Configuration
+//@Configuration
 public class ElasticSearchConfiguration {
-    /** 协议 */
+    /** 协议 *//*
     @Value("${elasticsearch.schema:http}")
     private String schema;
 
-    /** 集群地址，如果有多个用“,”隔开 */
+    *//** 集群地址，如果有多个用“,”隔开 *//*
     @Value("${elasticsearch.address}")
     private String address;
 
-    /** 连接超时时间 */
+    *//** 连接超时时间 *//*
     @Value("${elasticsearch.connectTimeout}")
     private int connectTimeout;
 
-    /** Socket 连接超时时间 */
+    *//** Socket 连接超时时间 *//*
     @Value("${elasticsearch.socketTimeout}")
     private int socketTimeout;
 
-    /** 获取连接的超时时间 */
+    *//** 获取连接的超时时间 *//*
     @Value("${elasticsearch.connectionRequestTimeout}")
     private int connectionRequestTimeout;
 
-    /** 最大连接数 */
+    *//** 最大连接数 *//*
     @Value("${elasticsearch.maxConnectNum}")
     private int maxConnectNum;
 
-    /** 最大路由连接数 */
+    *//** 最大路由连接数 *//*
     @Value("${elasticsearch.maxConnectPerRoute}")
     private int maxConnectPerRoute;
 
@@ -75,5 +75,5 @@ public class ElasticSearchConfiguration {
             return httpClientBuilder;
         });
         return new RestHighLevelClient(builder);
-    }
+    }*/
 }

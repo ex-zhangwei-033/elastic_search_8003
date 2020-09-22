@@ -16,7 +16,6 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.elasticsearch.core.query.IndexQuery;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -30,11 +29,6 @@ public class BankingOutLetsServiceImpl implements BankingOutLetsService {
     @Autowired
     private RestHighLevelClient client;
 
-    @Override
-    public void syncOutlets() {
-        List<Map<String, Object>> list = null;
-        List<IndexQuery> indexQueries = convertIndexQueries(list);
-    }
 
     @Override
     public boolean deleteIndex(String index) {
@@ -84,25 +78,7 @@ public class BankingOutLetsServiceImpl implements BankingOutLetsService {
     }
 
 
-    private List<IndexQuery> convertIndexQueries(List<Map<String, Object>> outlets) {
-        List<IndexQuery> indexQueries = new ArrayList<>();
-        for (Map map : outlets) {
-            BankQutlet bankQutlet = new BankQutlet();
-            bankQutlet.setId((String) map.get("id"));
 
-            Address address = new Address();
-            address.setCity((String) map.get("city"));
-
-            bankQutlet.setAddress(address);
-
-            IndexQuery indexQuery = new IndexQuery();
-            indexQuery.setObject(bankQutlet);
-            indexQuery.setIndexName("cmb_outlet");
-            indexQuery.setType("cmb_outlet");
-            indexQueries.add(indexQuery);
-        }
-        return indexQueries;
-    }
 
     //批量插入
     private void bulkPutIndex(List<Map<String, Object>> list, String index, String type) throws IOException {

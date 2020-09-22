@@ -21,7 +21,7 @@ public class BankingOutLetsController {
      */
     @RequestMapping("/syncOutlets")
     public BaseResult  syncOutlets(){
-        bankingOutLetsService.syncOutlets();
+
         return BaseResult.success();
     }
     /**
