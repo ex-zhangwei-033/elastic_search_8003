@@ -13,6 +13,7 @@ import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
@@ -20,6 +21,8 @@ import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -69,6 +72,7 @@ public class EsAppTest {
         }
     }
 
+
     @Test
     public void testIndex() throws IOException {
         // 判断是否存在索引
@@ -77,7 +81,7 @@ public class EsAppTest {
             createIndex(INDEX_TEST);
         }
 
-        // 判断是否存在记录
+       // 判断是否存在记录
         if (!exists(INDEX_TEST, TYPE_TEST, tests)) {
             // 不存在增加记录
             add(INDEX_TEST, TYPE_TEST, tests);
