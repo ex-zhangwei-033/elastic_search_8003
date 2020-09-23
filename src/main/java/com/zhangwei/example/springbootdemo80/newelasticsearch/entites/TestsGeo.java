@@ -1,11 +1,7 @@
 package com.zhangwei.example.springbootdemo80.newelasticsearch.entites;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.elasticsearch.common.geo.GeoPoint;
-
-import java.lang.annotation.Documented;
 
 @Getter@Setter
 public class TestsGeo {
@@ -15,6 +11,13 @@ public class TestsGeo {
     private String name;
 
 
-    private GeoPoint location;
+    private Location location;
 
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Location{
+        private double lon;
+        private double lat;
+    }
 }

@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Configuration;
  **/
 //@Configuration
 public class EsConfiguration {
-    /*private static String hosts = "127.0.0.1"; // 集群地址，多个用,隔开
+    /*private static String hosts = "localhost:9200"; // 集群地址，多个用,隔开
     private static int port = 9200; // 使用的端口号
     private static String schema = "http"; // 使用的协议
     private static ArrayList<HttpHost> hostList = null;

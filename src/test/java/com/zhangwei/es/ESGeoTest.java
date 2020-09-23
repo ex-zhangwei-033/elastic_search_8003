@@ -1,21 +1,19 @@
 package com.zhangwei.es;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.zhangwei.example.springbootdemo80.SpringBootDemo80Application;
 import com.zhangwei.example.springbootdemo80.newelasticsearch.entites.TestsGeo;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
-import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
-import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.geo.GeoPoint;
@@ -38,7 +36,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -53,19 +50,18 @@ public class ESGeoTest {
 
     @BeforeClass
     public static void before() {
-        INDEX_TEST = "my_info_3"; // 索引名称
-        TYPE_TEST = "my_info_3"; // 索引类型
+        INDEX_TEST = "tests_geo"; // 索引名称
+        TYPE_TEST = "_doc"; // 索引类型
         testsList = new ArrayList<>();
-        for (int i = 0; i < 89; i++) {
+        for (int i = 0; i < 88; i++) {
             tests = new TestsGeo();
             tests.setId(Long.valueOf(i));
             tests.setName("test name  " + i);
-            GeoPoint geoPoint = new GeoPoint(Double.valueOf(i),Double.valueOf(i));
-//            tests.setLocation(geoPoint);
+            TestsGeo.Location location = new TestsGeo.Location(Double.valueOf(i), Double.valueOf(i));
+            tests.setLocation(location);
             testsList.add(tests);
         }
     }
-
 
 
     @Test
@@ -73,7 +69,7 @@ public class ESGeoTest {
         if (!existsIndex(INDEX_TEST)) {
             createIndex();
         }
-        add(INDEX_TEST,TYPE_TEST,tests);
+        add(INDEX_TEST, TYPE_TEST, tests);
 //        bulk();
 //        searchGeo();
     }
@@ -90,15 +86,15 @@ public class ESGeoTest {
                     .startObject("properties")
 
                     .startObject("id")
-                    .field("type","long")
+                    .field("type", "long")
                     .endObject()
 
                     .startObject("name")
-                    .field("type","text")
+                    .field("type", "text")
                     .endObject()
 
                     .startObject("location")
-                    .field("type","geo_point")
+                    .field("type", "geo_point")
                     .endObject()
 
                     .endObject()
@@ -115,9 +111,9 @@ public class ESGeoTest {
             CreateIndexResponse createIndexResponse = client.indices().create(request, RequestOptions.DEFAULT);
             // 判断是否创建成功
             boolean isCreated = createIndexResponse.isAcknowledged();
-            System.out.println("是否创建成功：{}"+isCreated);
+            System.out.println("是否创建成功：{}" + isCreated);
         } catch (IOException e) {
-            System.out.println(""+e);
+            System.out.println("" + e);
         }
     }
 
@@ -127,7 +123,7 @@ public class ESGeoTest {
         SearchSourceBuilder ssb = new SearchSourceBuilder();
 
         //工体的坐标
-        GeoPoint geoPoint = new GeoPoint(0.111111111d,0.2222222222d);
+        GeoPoint geoPoint = new GeoPoint(0.111111111d, 0.2222222222d);
         //geo距离查询  name=geo字段
         QueryBuilder qb = QueryBuilders.geoDistanceQuery("location")
                 //距离 3KM
@@ -145,8 +141,6 @@ public class ESGeoTest {
 
 
     }
-
-
 
 
     /**
@@ -178,6 +172,7 @@ public class ESGeoTest {
 
     /**
      * 判断记录是都存在
+     *
      * @param index
      * @param type
      * @param tests
@@ -195,6 +190,7 @@ public class ESGeoTest {
 
     /**
      * 增加记录
+     *
      * @param index
      * @param type
      * @param tests
@@ -202,13 +198,16 @@ public class ESGeoTest {
      */
     public void add(String index, String type, TestsGeo tests) throws IOException {
         IndexRequest indexRequest = new IndexRequest(index, type, tests.getId().toString());
-        indexRequest.source(JSON.toJSONString(tests), XContentType.JSON);
+        //indexRequest.source(JSON.toJSONString(tests), XContentType.JSON);
+        indexRequest.source(JSONObject.toJSONString(tests), XContentType.JSON);
         IndexResponse indexResponse = client.index(indexRequest, RequestOptions.DEFAULT);
         System.out.println("add: " + JSON.toJSONString(indexResponse));
+
     }
 
     /**
      * 批量操作
+     *
      * @throws IOException
      */
     public void bulk() throws IOException {
