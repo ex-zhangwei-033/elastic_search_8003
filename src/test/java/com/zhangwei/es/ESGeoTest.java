@@ -27,6 +27,8 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.FetchSourceContext;
+import org.elasticsearch.search.sort.GeoDistanceSortBuilder;
+import org.elasticsearch.search.sort.SortOrder;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,6 +39,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {SpringBootDemo80Application.class}) // 指定启动类
@@ -66,12 +69,12 @@ public class ESGeoTest {
 
     @Test
     public void test() throws IOException {
-        if (!existsIndex(INDEX_TEST)) {
+        /*if (!existsIndex(INDEX_TEST)) {
             createIndex();
         }
         add(INDEX_TEST, TYPE_TEST, tests);
-//        bulk();
-//        searchGeo();
+        bulk();*/
+        searchGeo();
     }
 
     /**
@@ -121,23 +124,35 @@ public class ESGeoTest {
     public void searchGeo() throws IOException {
         SearchRequest searchRequest = new SearchRequest(INDEX_TEST);
         SearchSourceBuilder ssb = new SearchSourceBuilder();
-
+        double lat = 8;
+        double lon = 8;
         //工体的坐标
-        GeoPoint geoPoint = new GeoPoint(0.111111111d, 0.2222222222d);
+        GeoPoint geoPoint = new GeoPoint(lat, lon);
         //geo距离查询  name=geo字段
         QueryBuilder qb = QueryBuilders.geoDistanceQuery("location")
                 //距离 3KM
-                .distance(300d, DistanceUnit.KILOMETERS)
+                .distance("500",DistanceUnit.KILOMETERS)
                 //坐标工体
                 .point(geoPoint);
+        //排序
+        GeoDistanceSortBuilder sortBuilder = new GeoDistanceSortBuilder("location",lat,lon);
+        sortBuilder.unit(DistanceUnit.KILOMETERS);
+        sortBuilder.order(SortOrder.ASC);
+        sortBuilder.point(lat,lon);
 
+        ssb.size(5);
         ssb.query(qb);
+        ssb.sort(sortBuilder);
         searchRequest.source(ssb);
         SearchResponse response = client.search(searchRequest, RequestOptions.DEFAULT);
-
+        List<TestsGeo> list = new ArrayList<>();
         for (SearchHit hit : response.getHits().getHits()) {
             System.out.println(hit.getSourceAsString());
+            Map<String,Object> map = hit.getSourceAsMap();
+            TestsGeo testsGeo = JSON.parseObject(hit.getSourceAsString(),TestsGeo.class);
+            list.add(testsGeo);
         }
+        System.out.println(list.size());
 
 
     }

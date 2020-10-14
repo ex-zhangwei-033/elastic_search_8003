@@ -81,7 +81,7 @@ public class EsAppTest {
             createIndex(INDEX_TEST);
         }
 
-       // 判断是否存在记录
+       /*// 判断是否存在记录
         if (!exists(INDEX_TEST, TYPE_TEST, tests)) {
             // 不存在增加记录
             add(INDEX_TEST, TYPE_TEST, tests);
@@ -94,14 +94,14 @@ public class EsAppTest {
         if (exists(INDEX_TEST, TYPE_TEST, tests)) {
             update(INDEX_TEST, TYPE_TEST, tests);
             get(INDEX_TEST, TYPE_TEST, tests.getId());
-        }
+        }*/
 
-        // 删除记录信息
+       /* // 删除记录信息
         delete(INDEX_TEST, TYPE_TEST, tests.getId());
         get(INDEX_TEST, TYPE_TEST, tests.getId());
         // 删除记录信息
         delete(INDEX_TEST, TYPE_TEST, tests.getId());
-        get(INDEX_TEST, TYPE_TEST, tests.getId());
+        get(INDEX_TEST, TYPE_TEST, tests.getId());*/
 
         // 批量操作
         bulk();

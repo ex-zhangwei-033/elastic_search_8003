@@ -16,6 +16,8 @@ public class TestsGeo {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
+    @Setter
+    @Getter
     public static class Location{
         private double lon;
         private double lat;
